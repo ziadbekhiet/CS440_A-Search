@@ -41,7 +41,7 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
     
     int current_nodex = startx;
     int current_nodey = starty;
-    
+    int f_g = 0;
     vector<pair<int,int>> :: const_iterator iter;
     while(current_nodex != finishx || current_nodey != finishy){
     int lowf = 0;
@@ -90,7 +90,7 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
     }
     
     int minv = 99;
-    pair<int,int> minp = make_pair(startx,starty);
+    pair<int,int> minp = make_pair(current_nodex,current_nodey);
     for(int i = 0; i < 10; i++){
         for(int j =0; j < 10; j++){
             if (val[make_pair(i,j)] < minv && val[make_pair(i,j)] > 0){
@@ -100,25 +100,57 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
                 }
         cout << endl;
     }
-    
-    for(int i = 0; i < 10; i++){
-        for(int j =0; j < 10; j++){
-            cout << val[make_pair(i,j)] << " ";
+        
+    if(minv == 99 && minp == make_pair(current_nodex,current_nodey)){
+        vector<pair<int,int>> empty;
+        //outputs the final explored nodes number
+        //unnecessary
+        int opened_nodes = 0;
+        int explored_nodes = 0;
+        for(int i = 0; i < 10; i++){
+            for(int j =0; j < 10; j++){
+                if(val[make_pair(i,j)] >= -1 && val[make_pair(i,j)]< 99){
+                    opened_nodes++;
+                }
+                if(val[make_pair(i,j)] == -1){
+                    explored_nodes++;
+                }
+            }
         }
-        cout << endl;
+        cout << endl << endl;
+        for(int i = 0; i < 10; i++){
+            for(int j =0; j < 10; j++){
+                cout << val[make_pair(i,j)] << " ";
+            }
+            cout << endl;
+        }
+        cout << "on the map, -1 gives explored nodes and -2 represents an obstacle\n";
+        cout << "opened nodes: " << opened_nodes << endl;
+        cout << "explored nodes: " << explored_nodes << endl;
+        // unnecessary
+        return empty;
+            break;
     }
+    
+//    for(int i = 0; i < 10; i++){
+//        for(int j =0; j < 10; j++){
+//            cout << val[make_pair(i,j)] << " ";
+//        }
+//        cout << endl;
+//    }
     explored.push_back(minp);
     val[minp] = -1;
         
     current_nodex = minp.first;
     current_nodey = minp.second;
-    cout << "current_nodex: " << current_nodex << endl;
-    cout << "current_nodey: " << current_nodey << endl;
+//    cout << "current_nodex: " << current_nodex << endl;
+//    cout << "current_nodey: " << current_nodey << endl;
     }
+    
     val[make_pair(current_nodex,current_nodey)] = -1;
     int opened_nodes = 0;
     int explored_nodes = 0;
-    //outputs the final explored nodes number
+    //outputs the number of explored nodes
     for(int i = 0; i < 10; i++){
         for(int j =0; j < 10; j++){
             if(val[make_pair(i,j)] >= -1 && val[make_pair(i,j)]< 99){
@@ -137,8 +169,9 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
         }
         cout << endl;
     }
-    cout << opened_nodes << endl;
-    cout << explored_nodes << endl;
+    cout << "on the map, -1 gives explored nodes, -2 represents an obstacle and 99 represents an unexlored node\n";
+    cout << "opened nodes: " << opened_nodes << endl;
+    cout << "explored nodes: " << explored_nodes << endl;
     
     return explored;
     
@@ -149,16 +182,15 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     
     int X[10][10] = {1,1,1,1,1,1,1,1,1,1,
-        1,1,1,0,1,0,1,1,1,1,
+        0,0,1,0,0,0,0,0,0,1,
         0,0,0,1,1,0,1,1,1,1,
-        0,1,0,1,1,1,1,1,1,1,
-        1,0,1,1,0,1,1,1,1,0,
-        1,1,1,1,0,1,1,1,1,1,
-        1,1,0,1,1,1,1,1,1,1,
-        1,1,1,1,1,0,1,1,1,1,
-        1,1,1,1,1,0,1,1,1,1,
+        0,1,0,1,1,1,1,1,0,1,
+        1,0,1,1,0,1,1,1,0,1,
+        1,1,1,1,0,1,1,1,0,1,
+        1,1,0,1,1,1,1,1,0,1,
+        1,1,1,1,1,0,1,1,0,1,
+        1,1,1,1,1,0,1,1,0,0,
         1,1,1,1,1,0,1,1,1,1};
-    
     
     
     path(1,2,9,9,X);
