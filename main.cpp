@@ -331,7 +331,7 @@ int main(int argc, const char * argv[]) {
     
 
     
-//    path(1,2,9,9,X);
+   path(1,2,9,9,Ar);
     
     
     
