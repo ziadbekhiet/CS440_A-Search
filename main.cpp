@@ -279,7 +279,8 @@ int main(int argc, const char * argv[]) {
     int Y;
     int Ar[10][10];
     string line;
-    ifstream myfile("/Users/HabibullahShaik/Desktop/xcode/Learn/maze.txt");
+    string filelocation = "/Users/HabibullahShaik/Desktop/xcode/Learn/maze.txt";
+    ifstream myfile(filelocation);
     if (myfile.is_open()){
         while(getline(myfile,line)){
             cnt++;
@@ -298,7 +299,7 @@ int main(int argc, const char * argv[]) {
     }
     Ar[X][Y];
     cnt = 0;
-    ifstream myfile2("/Users/HabibullahShaik/Desktop/xcode/Learn/maze.txt");
+    ifstream myfile2(filelocation);
     if (myfile2.is_open()){
         while(getline(myfile2,line)){
             cnt++;
