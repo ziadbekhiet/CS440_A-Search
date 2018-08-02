@@ -11,6 +11,12 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <deque>
+
 using namespace std;
 
 
@@ -106,28 +112,28 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
         vector<pair<int,int>> empty;
         //outputs the final explored nodes number
         //unnecessary
-        //int opened_nodes = 0;
-      //  int explored_nodes = 0;
-    //    for(int i = 0; i < 10; i++){
-  //          for(int j =0; j < 10; j++){
-//                if(val[make_pair(i,j)] >= -1 && val[make_pair(i,j)]< 99){
-          //          opened_nodes++;
-        //        }
-      //          if(val[make_pair(i,j)] < 0){
-    //                explored_nodes++;
-  //              }
-  //          }
-  //      }
-  //      cout << endl << endl;
-  //      for(int i = 0; i < 10; i++){
-  //          for(int j =0; j < 10; j++){
-  //              cout << val[make_pair(i,j)] << " ";
-  //          }
-  //          cout << endl;
-  //      }
-  //      cout << "on the map, -1 gives explored nodes and -2 represents an obstacle\n";
- //       cout << "opened nodes: " << opened_nodes << endl;
- //       cout << "explored nodes: " << explored_nodes << endl;
+        int opened_nodes = 0;
+        int explored_nodes = 0;
+        for(int i = 0; i < 10; i++){
+            for(int j =0; j < 10; j++){
+                if(val[make_pair(i,j)] >= -1 && val[make_pair(i,j)]< 99){
+                    opened_nodes++;
+                }
+                if(val[make_pair(i,j)] < 0){
+                    explored_nodes++;
+                }
+            }
+        }
+        cout << endl << endl;
+        for(int i = 0; i < 10; i++){
+            for(int j =0; j < 10; j++){
+                cout << val[make_pair(i,j)] << " ";
+            }
+            cout << endl;
+        }
+        cout << "on the map, -1 gives explored nodes and -2 represents an obstacle\n";
+        cout << "opened nodes: " << opened_nodes << endl;
+        cout << "explored nodes: " << explored_nodes << endl;
         // unnecessary
         return empty;
             break;
@@ -171,13 +177,13 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
             if(val[make_pair(i,j)] == 0){
                 val[make_pair(i,j)] = -99;
             }
-  //          cout << val[make_pair(i,j)] << " ";
+            cout << val[make_pair(i,j)] << " ";
         }
-  //      cout << endl;
+        cout << endl;
     }
-//    cout << "on the map, -x gives explored nodes, 0 represents an obstacle and 99 represents an unexplored node\n";
-//    cout << "opened nodes: " << opened_nodes << endl;
-//    cout << "explored nodes: " << explored_nodes << endl;
+    cout << "on the map, -x gives explored nodes, 0 represents an obstacle and 99 represents an unexplored node\n";
+    cout << "opened nodes: " << opened_nodes << endl;
+    cout << "explored nodes: " << explored_nodes << endl;
 
     //redo search while moving along the most negative values to find the searh path.
     vector<pair<int,int>> final_path;
@@ -247,18 +253,18 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
             current_nodey = ly;
         }
         final_path.push_back(make_pair(current_nodex,current_nodey));
-//        cout << "current_nodex: " << current_nodex << endl;
-//        cout << "current_nodey: " << current_nodey << endl;;
+ //       cout << "current_nodex: " << current_nodex << endl;
+ //       cout << "current_nodey: " << current_nodey << endl;;
     }
     
     reverse(final_path.begin(), final_path.end());
-//    cout << endl<< endl;
-   // vector<pair<int,int>>::const_iterator itf;
-//    int itf;
-//    for(itf = 0; itf < final_path.size(); itf++){
-//        cout << final_path[itf].first << endl;
-//        cout << final_path[itf].second << endl << endl;
-//    }
+    cout << endl<< endl;
+//    vector<pair<int,int>>::const_iterator itf;
+    int itf;
+    for(itf = 0; itf < final_path.size(); itf++){
+        cout << final_path[itf].first << endl;
+        cout << final_path[itf].second << endl << endl;
+    }
     
     return final_path;
     
@@ -267,20 +273,65 @@ vector< pair<int,int>> path(int startx, int starty, int finishx, int finishy, in
 
 int main(int argc, const char * argv[]) {
     // insert code here...
+    // file reader
+    int cnt = 0;
+    int X;
+    int Y;
+    int Ar[10][10];
+    string line;
+    ifstream myfile("/Users/HabibullahShaik/Desktop/xcode/Learn/maze.txt");
+    if (myfile.is_open()){
+        while(getline(myfile,line)){
+            cnt++;
+            if(cnt == 1){
+                stringstream convert(line);
+                convert >> X;
+// prints read x                cout << X << endl;
+            }
+            else if(cnt == 2){
+                stringstream convert2(line);
+                convert2 >> Y;
+// prints read y                cout << Y << endl;
+            }
+        }
+        myfile.close();
+    }
+    Ar[X][Y];
+    cnt = 0;
+    ifstream myfile2("/Users/HabibullahShaik/Desktop/xcode/Learn/maze.txt");
+    if (myfile2.is_open()){
+        while(getline(myfile2,line)){
+            cnt++;
+            if(cnt > 2){
+                stringstream c (line);
+                int ycount = 0;
+                while(1){
+                    int n;
+                    c >> n;
+                    if(!c){
+                        break;
+                    }
+                    Ar[cnt-3][ycount] = n;
+                    ycount++;
+                }
+            }
+        }
+        myfile2.close();
+    }
+    //prints file reader input
+//    for(int i = 0; i < X; i++){
+//        for(int j = 0; j < Y; j++){
+//            cout << Ar[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+    //end print file reader input
+    // end file reader
+
     
-    int X[10][10] = {1,1,1,1,1,1,1,1,1,1,
-        0,0,1,0,0,0,0,0,0,1,
-        0,0,0,1,1,1,1,1,1,1,
-        0,1,0,1,0,1,0,0,0,1,
-        1,0,1,1,0,1,0,1,0,1,
-        1,1,1,1,0,1,0,1,0,1,
-        1,1,0,1,1,1,0,1,0,1,
-        1,1,0,1,1,0,1,1,0,1,
-        1,0,0,0,0,0,0,0,0,0,
-        1,1,1,1,1,1,1,1,1,1};
+
     
-    
-    path(1,2,9,9,X);
+//    path(1,2,9,9,X);
     
     
     
